@@ -12,6 +12,7 @@ export class UserForm extends Component {
         mailgunApiKey: "",
         mandrillApiKey: "",
         amazonApiKey: "",
+        newMailKey: "",
         mailReciever: "",
         mailSubject: "",
         mailMessage: ""
@@ -39,8 +40,8 @@ export class UserForm extends Component {
 
     render() {
         const {step} = this.state;
-        const {userId, password, sendgridApiKey, mailgunApiKey, mandrillApiKey,amazonApiKey,mailReciever, mailSubject, mailMessage } = this.state;
-        const values = {userId, password, sendgridApiKey, mailgunApiKey, mandrillApiKey,amazonApiKey, mailReciever, mailSubject, mailMessage};
+        const {userId, password, sendgridApiKey, mailgunApiKey, mandrillApiKey,amazonApiKey,newMailKey,mailReciever, mailSubject, mailMessage } = this.state;
+        const values = {userId, password, sendgridApiKey, mailgunApiKey, mandrillApiKey,amazonApiKey, newMailKey ,mailReciever, mailSubject, mailMessage};
 
         switch(step) {
             case 1:

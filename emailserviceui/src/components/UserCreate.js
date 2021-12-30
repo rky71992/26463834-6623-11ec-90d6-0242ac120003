@@ -22,10 +22,11 @@ export class UserCreate extends Component {
         body: JSON.stringify({
             "userId": values.userId,
             "password": values.password,
-            "sendgridApiKey": values.sendgridApiKey,
-            "mailgunApiKey": values.mailgunApiKey,
-            "mandrillApiKey": values.mandrillApiKey,
-            "amazonApiKey": values.amazonApiKey
+            "services": [{"service_id":"sendgrid", "service_key":values.sendgridApiKey},
+                        {"service_id":"mailgun", "service_key":values.mailgunApiKey},
+                        {"service_id":"mandrill", "service_key":values.mandrillApiKey},
+                        {"service_id":"amazon", "service_key":values.amazonApiKey},
+                        {"service_id":"new", "service_key":values.newMailKey}]
         })
         });
         console.log("Is this POST func running")
@@ -65,6 +66,11 @@ export class UserCreate extends Component {
                     <TextField
                         floatingLabelText = "Amazon SUS API Key"
                         onChange = {handleChange('amazonApiKey')}
+                    />
+                    <br/>
+                    <TextField
+                        floatingLabelText = "New Mail Service API Key"
+                        onChange = {handleChange('newMailKey')}
                     />
                     <br/>
                     <RaisedButton

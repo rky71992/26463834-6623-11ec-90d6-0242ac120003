@@ -24,8 +24,8 @@
     ![Send mail Interface](/screenshots/send_mail_current.png)
 
     #How can be improved
-    ![Create User Improved Interface](/screenshots/create_user_current.png)
-    ![Send mail Improved Interface](/screenshots/send_mail_current.png)
+    ![Create User Improved Interface](/screenshots/create_user_improved.png)
+    ![Send mail Improved Interface](/screenshots/send_mail_improved.png)
 
     #TODO and future implementation
     1. TODO: Icon of the mail services in create user interface
