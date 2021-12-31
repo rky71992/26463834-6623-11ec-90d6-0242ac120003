@@ -152,3 +152,22 @@
                 Status code: 500
 
 # PIP package
+
+    Currently hosted at testpypi as mail-services-rohit-yadav
+    can be installed as python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps mail-services-rohit-yadav
+
+    #Usuage
+    from mail_services import MailService
+
+    ms = MailService.MailService("personal") # MailService require service anem which can be any string
+    
+    ms.add_service([{"key":"afsafafaf","id":"sendgrid"},{"key":"afsafafaf","id":"mailgun"}])
+    Services  id supported: ['sendgrid','mailgun','mandrill','amazon']
+
+    ms.add_message("This is sub","This is message")
+
+    exe_status = ms.mail_execute(["rohit@gmail.com"]) #will send the mail to recipients
+
+    print(exe_status)
+
+    TODO: Only ['sendgrid'] service is currently implemented due to time constraint

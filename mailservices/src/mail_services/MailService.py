@@ -148,16 +148,6 @@ class MailService(object):
             return_info.append(temp_dict)
         
         return return_info
-            
-            
-ms = MailService("personal")
-ms.add_service([{"key":"afsafafaf","id":"sendgrid"},{"key":"afsafafaf","id":"mailgun"}])
-print(ms.is_service_processed())
-ms.add_message("This is sub","This is message")
-
-exe_status = ms.mail_execute(["rohit@gmail.com"])
-print(exe_status)
-        
         
     
     

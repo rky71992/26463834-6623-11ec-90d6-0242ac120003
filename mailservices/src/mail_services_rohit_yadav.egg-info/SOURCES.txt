@@ -1,0 +1,9 @@
+LICENCE
+pyproject.toml
+setup.cfg
+src/mail_services/MailService.py
+src/mail_services/__init__.py
+src/mail_services_rohit_yadav.egg-info/PKG-INFO
+src/mail_services_rohit_yadav.egg-info/SOURCES.txt
+src/mail_services_rohit_yadav.egg-info/dependency_links.txt
+src/mail_services_rohit_yadav.egg-info/top_level.txt

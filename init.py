@@ -8,6 +8,7 @@ from utils import *
 from pymongo import MongoClient
 from flask import request, jsonify, redirect
 from flask_cors import CORS
+from mail_service import MailService
 
 LOG_FILE_PATH = "/home/rohit/Logs/aus_mail_service_logs.log"
 logging.basicConfig(filename= LOG_FILE_PATH, format='%(asctime)s %(message)s' ,level=logging.DEBUG, force=True)
@@ -129,7 +130,7 @@ def send_mail():
         return return_msg, 400
     
     try:
-        ms = MailService(str(user_id))
+        ms = MailService.MailService(str(user_id))
         ms.add_service(user_opted_services)
         #print(ms.is_service_processed())
         ms.add_message(subject,message)
