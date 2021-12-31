@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+import requests
 
 class MailService(object):
     'This class sends mail using different services'
@@ -60,17 +60,39 @@ class MailService(object):
                 raise TypeError("recipient type must be string. %s passed",type(recipient))
     
     def __send_mail_using_sendgrid(self,key,message_info):
-        return {"status":"failed","error":"Some error in sendgrid"}
-        pass
+        return_msg = {}
+        return_msg["status"] = ""
+        return_msg["error"] = ""
+        sendgrid_mail_send_url = "https://api.sendgrid.com/api/mail.send.json"
+        header = {"Authorization": "Bearer "+ key}
+
+        payload = {}
+        payload["to"] = message_info["to"]
+        payload["subject"] = message_info["subject"]
+        payload["from"] = message_info["from"]
+        payload["text"] = message_info["message"]
+        
+        try:
+            r = requests.post(url=sendgrid_mail_send_url ,headers=header,data=payload)
+        except Exception as ex:
+            return_msg["status"] = MailService.FAILED
+            return_msg["error"] = str(ex)
+            return return_msg
+        
+        if r.status_code == 200:
+            return_msg["status"] = MailService.SUCCESS
+        
+        return return_msg
     
     def __send_mail_using_mailgun(self,key,message_info):
-        return {"status":"success","error":""}
-        pass
+        return {"status":"failed","error":"Not implemented"}
     
     def __send_mail_using_mandrill(self,key,message_info):
+        return {"status":"failed","error":"Not implemented"}
         pass
     
     def __send_mail_using_amazon(self,key,message_info):
+        return {"status":"failed","error":"Not implemented"}
         pass
     
     def mail_execute(self,recipients_list):
@@ -79,7 +101,8 @@ class MailService(object):
 
         return_info = []
         for recipient in recipients_list:
-            msg = {"to":recipient,"subject":self.subject,"message":self.message}
+            #from is hardcoded for now, it will be senders email address
+            msg = {"from":"rky71992@gmail.com","to":recipient,"subject":self.subject,"message":self.message}
             temp_dict = {}
             temp_dict["to"] = recipient
             temp_dict["overall_status"] = False
