@@ -63,6 +63,7 @@ def create_new_user():
     new_services_requested = []
     mail_services_opted, new_services_requested = format_mail_services_opted(new_user_info.get("services",[]))
     
+    #mail_opted_services should be encrypted and then saved
     new_user_data["services"] = mail_services_opted
     
     #complete new user info have been generated, saving it to db
@@ -111,13 +112,44 @@ def send_mail():
         return_msg["Message"] = "Cannot send mail without signup"
         return return_msg, 400
     
+    mail_recepients = new_mail_data.get("to")
+    subject = new_mail_data.get("subject","")
+    message = new_mail_data.get("message","")
+    if not (mail_recepients) or (not subject) or (not message):
+        logging.debug("Cannot process if no mail_recipienst/subject/message provided")
+        return_msg["Status"] = ERROR
+        return_msg["Message"] = "mail_recipienst/subject/message required"
+        return return_msg, 400
+        
     user_opted_services = user_db_info.get("services")
     if not user_opted_services:
         logging.debug("Cannot send mail without any mail services opted.")
         return_msg["Status"] = FAILED
         return_msg["Message"] = "Cannot send mail without any mail services opted."
         return return_msg, 400
-        
+    
+    try:
+        ms = MailService(str(user_id))
+        ms.add_service(user_opted_services)
+        #print(ms.is_service_processed())
+        ms.add_message(subject,message)
+
+        exe_status = ms.mail_execute([mail_recepients])
+    except Exception:
+        raise
+    
+    #logging the services status
+    for status in exe_status:
+        logging.debug("Overall mail status to recipient %s is ::%s",status["to"],status["overall_status"])
+        for mail_services in status["mail_service_status"]:
+            if mail_services["status"] != SUCCESS:
+                logging.warning("Mail service is down for service %s . Error::",mail_services["service_id"],mail_services.get("error"))
+                
+    return_msg["Info"] = exe_status
+    return_msg["Status"] = SUCCESS
+    return return_msg
+    
+
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8000)
